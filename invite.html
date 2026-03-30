@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invite & Earn - YOUR777</title>
+    <style>
+        body { background-color: #011d13; color: white; font-family: Arial, sans-serif; padding: 20px; margin: 0; text-align: center; }
+        .back-btn { color: #FFD700; text-decoration: none; display: block; margin-bottom: 20px; text-align: left; font-size: 14px; }
+        .promo-card { background: linear-gradient(135deg, #FFD700, #FFA500); color: #000; padding: 25px; border-radius: 20px; margin-bottom: 20px; font-weight: bold; }
+        .invite-box { background: #003321; border: 1px solid #00c389; padding: 20px; border-radius: 15px; }
+        .refer-code { background: #001d13; padding: 15px; border: 1px dashed #FFD700; margin: 15px 0; font-size: 20px; color: #FFD700; font-weight: bold; }
+        .share-btn { width: 100%; padding: 15px; background: #00c389; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: #fff; }
+    </style>
+</head>
+<body>
+
+    <a href="dashboard.html" class="back-btn">⬅ Back to Home</a>
+
+    <div class="promo-card">
+        <h2 style="margin:0">YOUR777</h2>
+        <p>Invite Friends & Get Bonus!</p>
+    </div>
+
+    <div class="invite-box">
+        <p>Your Referral Code</p>
+        <div class="refer-code" id="myCode">777OFFICER</div>
+        <button class="share-btn" onclick="copyLink()">Copy Invite Link</button>
+    </div>
+
+    <script>
+        function copyLink() {
+            const link = "https://your777.com/register?ref=777OFFICER";
+            const el = document.createElement('textarea');
+            el.value = link;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            alert("লিঙ্ক কপি হয়েছে: " + link);
+        }
+    </script>
+</body>
+</html>

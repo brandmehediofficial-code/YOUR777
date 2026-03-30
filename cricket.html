@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket Game - YOUR777</title>
+    <style>
+        body { background-color: #011d13; color: white; font-family: sans-serif; text-align: center; margin: 0; }
+        .header { background: #00c389; padding: 15px; font-weight: bold; }
+        .back-btn { float: left; color: white; text-decoration: none; }
+        
+        .stadium { background: #004d33; margin: 15px; padding: 20px; border-radius: 15px; border: 2px solid #00c389; }
+        .score-board { font-size: 24px; color: #FFD700; margin-bottom: 10px; }
+        
+        .bet-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 15px; }
+        .run-btn { background: #003321; border: 1px solid #FFD700; color: white; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .run-btn:active { background: #FFD700; color: #000; }
+        
+        .status-msg { height: 30px; margin: 15px; color: #FFD700; font-weight: bold; }
+        .balance-info { font-size: 18px; color: #fff; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="dashboard.html" class="back-btn">⬅ Back</a>
+        CRICKET LIVE BET
+    </div>
+
+    <div class="stadium">
+        <div class="balance-info">Balance: ৳<span id="balDisplay">0.00</span></div>
+        <div class="score-board" id="ballResult">Ready to Play?</div>
+        <div class="status-msg" id="status">Choose your run!</div>
+    </div>
+
+    <p>Predict next ball run (Min ৳10)</p>
+    
+    <div class="bet-options">
+        <button class="run-btn" onclick="playBall(1)">1 Run (2x)</button>
+        <button class="run-btn" onclick="playBall(2)">2 Run (3x)</button>
+        <button class="run-btn" onclick="playBall(3)">3 Run (4x)</button>
+        <button class="run-btn" onclick="playBall(4)">4 Run (5x)</button>
+        <button class="run-btn" onclick="playBall(6)">6 Run (7x)</button>
+        <button class="run-btn" onclick="playBall('W')">Wicket (10x)</button>
+    </div>
+
+    <script>
+        let balance = parseFloat(localStorage.getItem('userBalance')) || 0;
+        const outcomes = [1, 2, 3, 4, 6, 'W'];
+
+        function updateUI() {
+            document.getElementById('balDisplay').innerText = balance.toFixed(2);
+            localStorage.setItem('userBalance', balance.toFixed(2));
+        }
+        updateUI();
+
+        function playBall(userChoice) {
+            let betAmount = prompt("কত টাকা বাজি ধরবেন?", "10");
+            betAmount = parseFloat(betAmount);
+
+            if (isNaN(betAmount) || betAmount < 10 || betAmount > balance) {
+                alert("ভুল ইনপুট বা ব্যালেন্স নেই! (মিনিমাম ১০ টাকা)");
+                return;
+            }
+
+            balance -= betAmount;
+            updateUI();
+            document.getElementById('status').innerText = "Bowling...";
+            document.getElementById('ballResult').innerText = "⚾...";
+
+            setTimeout(() => {
+                const result = outcomes[Math.floor(Math.random() * outcomes.length)];
+                document.getElementById('ballResult').innerText = result === 'W' ? "OUT! 🔴" : result + " RUNS! 🏏";
+
+                if (userChoice === result) {
+                    let multiplier = (result === 'W') ? 10 : (result === 6 ? 7 : result + 1);
+                    let win = betAmount * multiplier;
+                    balance += win;
+                    document.getElementById('status').innerText = "YOU WON ৳" + win + "!";
+                    alert("সাবাস! আপনি জিতেছেন।");
+                } else {
+                    document.getElementById('status').innerText = "Better luck next ball!";
+                }
+                updateUI();
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

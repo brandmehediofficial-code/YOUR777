@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviator - YOUR777</title>
+    <style>
+        body { background-color: #011d13; color: white; font-family: sans-serif; text-align: center; margin: 0; overflow: hidden; }
+        .header { background: #00c389; padding: 15px; font-weight: bold; }
+        .back-btn { float: left; color: white; text-decoration: none; }
+        .game-area { background: #001d13; margin: 20px; height: 250px; border-radius: 15px; border: 2px solid #00c389; position: relative; overflow: hidden; }
+        .multiplier { font-size: 50px; font-weight: bold; color: #FFD700; margin-top: 80px; }
+        .plane { position: absolute; bottom: 20px; left: 20px; font-size: 40px; transition: transform 0.1s linear; }
+        .bet-controls { background: #003321; padding: 20px; border-radius: 20px 20px 0 0; position: fixed; bottom: 0; width: 100%; box-sizing: border-box; }
+        .btn-bet { width: 100%; padding: 15px; background: #FFD700; border: none; border-radius: 10px; font-size: 20px; font-weight: bold; cursor: pointer; color: black; }
+        .btn-cashout { width: 100%; padding: 15px; background: #ea4335; border: none; border-radius: 10px; font-size: 20px; font-weight: bold; cursor: pointer; color: white; display: none; }
+    </style>
+</head>
+<body>
+    <div class="header"><a href="dashboard.html" class="back-btn">⬅ Back</a> AVIATOR </div>
+    <div style="margin-top: 15px;">Balance: ৳<span id="balDisplay">0.00</span></div>
+    <div class="game-area">
+        <div class="multiplier" id="multText">1.00x</div>
+        <div class="plane" id="plane">✈️</div>
+    </div>
+    <div class="bet-controls">
+        <div id="betInputArea">
+            <input type="number" id="betAmount" value="10" style="width: 80%; padding: 10px; margin-bottom: 10px; text-align: center; border-radius: 5px; border:none;">
+            <button class="btn-bet" onclick="startBet()">BET</button>
+        </div>
+        <button class="btn-cashout" id="cashOutBtn" onclick="cashOut()">CASH OUT</button>
+    </div>
+
+    <script>
+        let balance = parseFloat(localStorage.getItem('userBalance')) || 0;
+        let mult = 1.00, gameActive = false, interval, currentBet = 0;
+
+        function updateUI() {
+            document.getElementById('balDisplay').innerText = balance.toFixed(2);
+            localStorage.setItem('userBalance', balance.toFixed(2));
+        }
+        updateUI();
+
+        function startBet() {
+            let amount = parseFloat(document.getElementById('betAmount').value);
+            if (amount < 10 || amount > balance) { alert("Invalid Amount!"); return; }
+            balance -= amount; currentBet = amount; updateUI();
+            gameActive = true; mult = 1.00;
+            document.getElementById('betInputArea').style.display = 'none';
+            document.getElementById('cashOutBtn').style.display = 'block';
+            
+            // কন্ট্রোল লজিক: ৭৫% সময় বিমান ১.০৫-১.৫০ এর মধ্যে ফাটবে
+            let crashPoint = (Math.random() < 0.75) ? (Math.random() * 0.45 + 1.05) : (Math.random() * 3 + 1.5);
+
+            interval = setInterval(() => {
+                mult += 0.05;
+                document.getElementById('multText').innerText = mult.toFixed(2) + "x";
+                let move = (mult - 1) * 40;
+                document.getElementById('plane').style.transform = `translate(${move}px, -${move}px)`;
+                if (mult >= crashPoint) { gameOver("FLEW AWAY!"); }
+            }, 100);
+        }
+
+        function cashOut() {
+            if (!gameActive) return;
+            balance += currentBet * mult;
+            gameOver("WIN: ৳" + (currentBet * mult).toFixed(2));
+            updateUI();
+        }
+
+        function gameOver(msg) {
+            clearInterval(interval); gameActive = false;
+            document.getElementById('multText').innerText = msg;
+            setTimeout(() => {
+                document.getElementById('betInputArea').style.display = 'block';
+                document.getElementById('cashOutBtn').style.display = 'none';
+                document.getElementById('multText').innerText = "1.00x";
+                document.getElementById('plane').style.transform = `translate(0px, 0px)`;
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

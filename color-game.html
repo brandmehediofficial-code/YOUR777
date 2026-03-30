@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Prediction - CD33.COM</title>
+    <style>
+        body { background-color: #011d13; color: white; font-family: Arial, sans-serif; text-align: center; margin: 0; }
+        .game-header { background: #00c389; padding: 15px; font-size: 20px; font-weight: bold; }
+        
+        /* ব্যালেন্স বক্স */
+        .balance-card { background: #003321; margin: 15px; padding: 15px; border-radius: 10px; border: 1px solid #FFD700; }
+        .amount { font-size: 24px; color: #FFD700; font-weight: bold; }
+
+        /* কালার বাটন */
+        .color-buttons { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
+        .btn-game { border: none; padding: 15px 25px; border-radius: 5px; font-weight: bold; cursor: pointer; color: white; }
+        .green { background-color: #28a745; }
+        .red { background-color: #dc3545; }
+        .violet { background-color: #6f42c1; }
+
+        /* রেজাল্ট সেকশন */
+        .result-box { margin-top: 30px; padding: 20px; background: #000; min-height: 100px; }
+        .timer { font-size: 18px; color: #FFD700; }
+    </style>
+</head>
+<body>
+
+    <div class="game-header">Color Prediction</div>
+
+    <div class="balance-card">
+        <div>Available Balance</div>
+        <div class="amount">৳ <span id="gameBalance">500.00</span></div>
+    </div>
+
+    <div class="timer">Next Round in: <span id="seconds">30</span>s</div>
+
+    <h3>Select Color</h3>
+    <div class="color-buttons">
+        <button class="btn-game green" onclick="bet('Green')">Join Green</button>
+        <button class="btn-game violet" onclick="bet('Violet')">Join Violet</button>
+        <button class="btn-game red" onclick="bet('Red')">Join Red</button>
+    </div>
+
+    <div class="result-box">
+        <h4>Recent Results</h4>
+        <div id="history">---</div>
+    </div>
+
+    <script>
+        let balance = 500;
+        let timeLeft = 30;
+
+        // টাইমার লজিক
+        setInterval(() => {
+            if(timeLeft > 0) {
+                timeLeft--;
+                document.getElementById('seconds').innerText = timeLeft;
+            } else {
+                timeLeft = 30; // রিসেট
+                showResult();
+            }
+        }, 1000);
+
+        function bet(color) {
+            let amount = prompt(color + " এ কত টাকা বেট করতে চান?", "10");
+            if(amount && amount <= balance) {
+                balance -= parseInt(amount);
+                document.getElementById('gameBalance').innerText = balance.toFixed(2);
+                alert(color + " এ ৳" + amount + " বেট সফল হয়েছে!");
+            } else {
+                alert("ব্যালেন্স নেই বা ভুল ইনপুট দিয়েছেন।");
+            }
+        }
+
+        function showResult() {
+            const colors = ["Red", "Green", "Violet"];
+            const winColor = colors[Math.floor(Math.random() * colors.length)];
+            document.getElementById('history').innerHTML = "Last Win: <b>" + winColor + "</b>";
+            alert("এই রাউন্ডের ফলাফল: " + winColor);
+        }
+    </script>
+
+</body>
+</html>

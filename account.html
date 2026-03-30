@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - YOUR777</title>
+    <style>
+        body { background-color: #011d13; color: white; font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .profile-header { text-align: center; margin-bottom: 30px; }
+        .avatar { width: 80px; height: 80px; background: #00c389; border-radius: 50%; display: inline-block; line-height: 80px; font-size: 40px; margin-bottom: 10px; }
+        
+        .info-list { background: #003321; border-radius: 15px; overflow: hidden; border: 1px solid #00c389; }
+        .info-item { padding: 15px; border-bottom: 1px solid #011d13; display: flex; justify-content: space-between; }
+        .info-item:last-child { border-bottom: none; }
+        
+        .logout-btn { width: 100%; padding: 15px; background: #dc3545; border: none; border-radius: 8px; color: white; font-weight: bold; margin-top: 30px; cursor: pointer; }
+        .back-home { display: block; text-align: center; margin-top: 20px; color: #FFD700; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <div class="profile-header">
+        <div class="avatar">👤</div>
+        <h2 id="uName">User Name</h2>
+        <p id="uPhone" style="opacity: 0.7;">017XXXXXXXX</p>
+    </div>
+
+    <div class="info-list">
+        <div class="info-item"><span>Total Balance</span><span style="color:#FFD700">৳ <span id="uBal">0.00</span></span></div>
+        <div class="info-item" onclick="location.href='invite.html'"><span>My Referrals</span><span>➡️</span></div>
+        <div class="info-item" onclick="alert('Version 1.0.0')"><span>App Version</span><span>1.0.0</span></div>
+    </div>
+
+    <button class="logout-btn" onclick="logout()">Logout Account</button>
+    <a href="dashboard.html" class="back-home">Back to Home</a>
+
+    <script>
+        // ডাটা লোড করা
+        window.onload = function() {
+            document.getElementById('uName').innerText = localStorage.getItem('userName');
+            document.getElementById('uPhone').innerText = localStorage.getItem('userPhone');
+            document.getElementById('uBal').innerText = localStorage.getItem('userBalance');
+        }
+
+        function logout() {
+            if(confirm("আপনি কি নিশ্চিতভাবে লগআউট করতে চান?")) {
+                // সব লোকাল ডাটা ক্লিয়ার করার দরকার নেই, শুধু লগইন অবস্থা থেকে সরিয়ে দেওয়া
+                window.location.href = "index.html";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Machine - YOUR777</title>
+    <style>
+        body { background-color: #011d13; color: white; font-family: Arial, sans-serif; text-align: center; margin: 0; }
+        .header { background: #00c389; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        .back-btn { color: white; text-decoration: none; font-size: 14px; }
+        
+        .balance-card { background: #003321; margin: 15px; padding: 15px; border-radius: 10px; border: 1px solid #FFD700; }
+        .amount { font-size: 24px; color: #FFD700; font-weight: bold; }
+
+        .slot-container { display: flex; justify-content: center; gap: 10px; margin: 40px 0; }
+        .slot-box { width: 80px; height: 100px; background: white; color: black; font-size: 50px; line-height: 100px; border-radius: 10px; border: 4px solid #FFD700; }
+
+        .spin-btn { background: linear-gradient(135deg, #FFD700, #FFA500); border: none; padding: 15px 50px; font-size: 20px; font-weight: bold; border-radius: 30px; cursor: pointer; color: black; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .spin-btn:disabled { background: #555; color: #ccc; }
+
+        #msg { margin-top: 20px; font-weight: bold; color: #FFD700; height: 25px; }
+        .cost-info { font-size: 14px; color: #FFD700; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="dashboard.html" class="back-btn">⬅ Back</a>
+        <span>777 SLOTS</span>
+        <div style="width: 40px;"></div>
+    </div>
+
+    <div class="balance-card">
+        <div>Your Balance</div>
+        <div class="amount">৳ <span id="balance">0.00</span></div>
+    </div>
+
+    <div class="slot-container">
+        <div class="slot-box" id="slot1">🎰</div>
+        <div class="slot-box" id="slot2">🎰</div>
+        <div class="slot-box" id="slot3">🎰</div>
+    </div>
+
+    <div id="msg"></div>
+    <div class="cost-info">Cost: ৳2 | Win: ৳10</div>
+    
+    <button class="spin-btn" id="spinBtn" onclick="spin()">SPIN</button>
+
+    <script>
+        const symbols = ['🍎', '🍒', '🍋', '💎', '7️⃣'];
+        let balance = parseFloat(localStorage.getItem('userBalance')) || 0;
+        
+        function updateBalance() {
+            document.getElementById('balance').innerText = balance.toFixed(2);
+            localStorage.setItem('userBalance', balance.toFixed(2));
+        }
+        updateBalance();
+
+        function spin() {
+            if (balance < 2) {
+                alert("ব্যালেন্স পর্যাপ্ত নয়! কমপক্ষে ২ টাকা লাগবে।");
+                return;
+            }
+
+            // প্রতি স্পিন ২ টাকা কাটবে
+            balance -= 2; 
+            updateBalance();
+            document.getElementById('msg').innerText = "Spinning...";
+            document.getElementById('spinBtn').disabled = true;
+
+            let count = 0;
+            let interval = setInterval(() => {
+                document.getElementById('slot1').innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                document.getElementById('slot2').innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                document.getElementById('slot3').innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                count++;
+                
+                if (count > 15) {
+                    clearInterval(interval);
+                    checkResult();
+                }
+            }, 100);
+        }
+
+        function checkResult() {
+            const s1 = document.getElementById('slot1').innerText;
+            const s2 = document.getElementById('slot2').innerText;
+            const s3 = document.getElementById('slot3').innerText;
+            
+            document.getElementById('spinBtn').disabled = false;
+
+            if (s1 === s2 && s2 === s3) {
+                // ৩টি মিললে ১০ টাকা যোগ হবে
+                balance += 10; 
+                document.getElementById('msg').innerText = "BIG WIN! ৳10 Won";
+                alert("অভিনন্দন! আপনি ১০ টাকা জিতেছেন।");
+            } else {
+                document.getElementById('msg').innerText = "Try Again!";
+            }
+            updateBalance();
+        }
+    </script>
+</body>
+</html>

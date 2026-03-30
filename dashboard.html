@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - CD33.COM</title>
+    <style>
+        body { background-color: #011d13; color: white; font-family: Arial, sans-serif; margin: 0; padding-bottom: 70px; }
+        .header { background: linear-gradient(135deg, #00c389, #004d33); padding: 25px 20px; text-align: center; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+        .balance-title { font-size: 14px; opacity: 0.8; }
+        .balance-amount { font-size: 35px; font-weight: bold; margin: 10px 0; color: #FFD700; }
+        .deposit-btn { background: #FFD700; border: none; padding: 10px 25px; border-radius: 20px; font-weight: bold; cursor: pointer; color: #000; }
+        .section-title { padding: 20px 15px 10px; font-size: 18px; font-weight: bold; }
+        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 15px; }
+        .game-card { background: #003321; border: 1px solid #00c389; border-radius: 15px; height: 110px; display: flex; flex-direction: column; justify-content: center; align-items: center; font-weight: bold; cursor: pointer; }
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #00c389; }
+        .nav-item { text-align: center; font-size: 12px; color: #888; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="font-weight:bold; margin-bottom:5px;">Welcome, <span id="displayName">User</span></div>
+        <div class="balance-title">Total Balance</div>
+        <div class="balance-amount">৳ <span id="userBalance">0.00</span></div>
+        <button class="deposit-btn" onclick="window.location.href='deposit.html'">Deposit</button>
+    </div>
+
+    <div class="section-title">🔥 Popular Games</div>
+    <div class="game-grid">
+        <div class="game-card" onclick="window.location.href='color-game.html'">🎨<br>Color Game</div>
+        <div class="game-card" onclick="alert('Coming Soon')">🎲<br>Casino</div>
+    </div>
+
+    <div class="bottom-nav">
+        <a href="dashboard.html" class="nav-item" style="color:#FFD700">🏠<br>Home</a>
+        <a href="withdraw.html" class="nav-item">💰<br>Withdraw</a>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const name = localStorage.getItem('userName');
+            const balance = localStorage.getItem('userBalance');
+
+            if(!name) {
+                window.location.href = "index.html";
+            } else {
+                document.getElementById('displayName').innerText = name;
+                document.getElementById('userBalance').innerText = balance;
+            }
+        }
+    </script>
+</body>
+</html>

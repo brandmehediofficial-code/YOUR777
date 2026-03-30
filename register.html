@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - CD33.COM</title>
+    <style>
+        body { background-color: #013220; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .register-box { background: rgba(0, 0, 0, 0.4); padding: 25px; border-radius: 15px; text-align: center; width: 85%; max-width: 320px; border: 1px solid #00c389; }
+        .logo { color: #FFD700; font-size: 28px; margin-bottom: 10px; font-weight: bold; }
+        input { width: 100%; padding: 12px; margin: 8px 0; background: #004d33; border: 1px solid #00c389; border-radius: 8px; color: white; box-sizing: border-box; outline: none; }
+        .btn { width: 100%; padding: 12px; background: linear-gradient(to bottom, #FFD700, #FFA500); border: none; border-radius: 8px; font-weight: bold; margin-top: 10px; cursor: pointer; color: #000; }
+        a { color: #FFD700; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="register-box">
+        <div class="logo">CD33.COM</div>
+        <h3>Create Account</h3>
+        <input type="text" id="regName" placeholder="Full Name">
+        <input type="text" id="regPhone" placeholder="Phone Number">
+        <input type="password" id="regPass" placeholder="Set Password">
+        <button class="btn" onclick="handleRegister()">Sign Up</button>
+        <p style="font-size: 13px; margin-top: 15px;">Already have an account? <a href="index.html">Login</a></p>
+    </div>
+
+    <script>
+        function handleRegister() {
+            const name = document.getElementById('regName').value;
+            const phone = document.getElementById('regPhone').value;
+            const pass = document.getElementById('regPass').value;
+
+            if(name && phone && pass) {
+                // ব্রাউজারে তথ্য সেভ করা
+                localStorage.setItem('userName', name);
+                localStorage.setItem('userPhone', phone);
+                localStorage.setItem('userPass', pass);
+                localStorage.setItem('userBalance', '50.00'); // শুরুতে বোনাস ৫০ টাকা
+
+                alert("রেজিস্ট্রেশন সফল! এখন লগইন করুন।");
+                window.location.href = "index.html";
+            } else {
+                alert("সবগুলো ঘর পূরণ করুন।");
+            }
+        }
+    </script>
+</body>
+</html>

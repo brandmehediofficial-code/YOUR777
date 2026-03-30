@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Game - YOUR777</title>
+    <style>
+        body { background: #011d13; color: white; font-family: sans-serif; text-align: center; margin: 0; }
+        .header { background: #00c389; padding: 15px; font-weight: bold; }
+        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; padding: 20px; }
+        .num-btn { background: #004d33; color: white; padding: 15px; border: 1px solid #00c389; border-radius: 5px; font-weight: bold; }
+        #res { font-size: 50px; color: #FFD700; margin: 20px; height: 60px; }
+    </style>
+</head>
+<body>
+    <div class="header">NUMBER GUESS (5X)</div>
+    <div style="margin: 20px;">Balance: ৳<span id="balDisplay">0.00</span></div>
+    <div id="res">?</div>
+    <div class="grid">
+        <script>for(let i=0; i<=9; i++) document.write(`<button class="num-btn" onclick="bet(${i})">${i}</button>`);</script>
+    </div>
+    <div id="status" style="color:#FFD700;"></div>
+
+    <script>
+        let balance = parseFloat(localStorage.getItem('userBalance')) || 0;
+        function updateUI() {
+            document.getElementById('balDisplay').innerText = balance.toFixed(2);
+            localStorage.setItem('userBalance', balance.toFixed(2));
+        }
+        updateUI();
+
+        function bet(num) {
+            let amt = prompt("Bet Amount (Min 10):", "10");
+            amt = parseFloat(amt);
+            if(amt < 10 || amt > balance) { alert("Error!"); return; }
+            
+            balance -= amt; updateUI();
+            document.getElementById('status').innerText = "Bet placed on " + num;
+            
+            setTimeout(() => {
+                // কন্ট্রোল লজিক: ৯০% সময় ইউজার হারবে
+                let winNum;
+                if (Math.random() < 0.90) {
+                    winNum = (num + 1) % 10; // ইচ্ছা করে অন্য নাম্বার দেওয়া
+                } else {
+                    winNum = num; // ১০% ক্ষেত্রে ইউজার জিতবে
+                }
+                
+                document.getElementById('res').innerText = winNum;
+                if (winNum === num) {
+                    balance += amt * 5; alert("You Won ৳" + (amt*5));
+                } else {
+                    alert("You Lost! Result was " + winNum);
+                }
+                updateUI();
+                document.getElementById('res').innerText = "?";
+                document.getElementById('status').innerText = "";
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

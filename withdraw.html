@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw - YOUR777</title>
+    <style>
+        body { background-color: #011d13; color: white; font-family: Arial, sans-serif; padding: 20px; margin: 0; }
+        .back-btn { color: #FFD700; text-decoration: none; display: block; margin-bottom: 20px; font-size: 14px; }
+        
+        .card { background: #003321; border: 1px solid #00c389; padding: 20px; border-radius: 15px; text-align: center; }
+        .balance-info { margin: 15px 0; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 10px; }
+        .balance-info span { color: #FFD700; font-size: 20px; font-weight: bold; }
+
+        select, input { width: 100%; padding: 12px; margin: 10px 0; background: #001d13; border: 1px solid #00c389; border-radius: 8px; color: white; box-sizing: border-box; outline: none; }
+        
+        .withdraw-btn { width: 100%; padding: 15px; background: linear-gradient(to bottom, #FFD700, #FFA500); border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: #000; margin-top: 10px; }
+        
+        .rules { text-align: left; font-size: 12px; color: #aaa; margin-top: 20px; line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+    <a href="dashboard.html" class="back-btn">⬅ Back to Dashboard</a>
+
+    <div class="card">
+        <h2 style="color: #FFD700; margin-top: 0;">YOUR777</h2>
+        <h3>Withdraw Money</h3>
+        
+        <div class="balance-info">
+            Available Balance: <br>
+            ৳ <span id="currentBal">0.00</span>
+        </div>
+        
+        <select id="withdrawMethod">
+            <option value="bkash">bKash (Personal)</option>
+            <option value="nagad">Nagad (Personal)</option>
+        </select>
+        
+        <input type="text" id="receiverNumber" placeholder="Enter Receiver Number">
+        <input type="number" id="withdrawAmount" placeholder="Min Amount ৳500">
+        
+        <button class="withdraw-btn" onclick="requestWithdraw()">Confirm Withdraw</button>
+
+        <div class="rules">
+            * সর্বনিম্ন উত্তোলন ৫০০ টাকা। <br>
+            * পেমেন্ট আসতে ১-২৪ ঘণ্টা সময় লাগতে পারে। <br>
+            * চার্জ ৫% প্রযোজ্য হতে পারে।
+        </div>
+    </div>
+
+    <script>
+        // ব্যালেন্স লোড করা
+        let balance = parseFloat(localStorage.getItem('userBalance')) || 0;
+        document.getElementById('currentBal').innerText = balance.toFixed(2);
+
+        function requestWithdraw() {
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            const phone = document.getElementById('receiverNumber').value;
+            const method = document.getElementById('withdrawMethod').value;
+
+            if (amount < 500) {
+                alert("দুঃখিত! সর্বনিম্ন ৫০০ টাকা উত্তোলন করতে পারবেন।");
+            } else if (amount > balance) {
+                alert("আপনার অ্যাকাউন্টে পর্যাপ্ত ব্যালেন্স নেই!");
+            } else if (phone.length < 11) {
+                alert("সঠিক ফোন নম্বর দিন।");
+            } else {
+                // ব্যালেন্স কমানো
+                balance -= amount;
+                localStorage.setItem('userBalance', balance.toFixed(2));
+                document.getElementById('currentBal').innerText = balance.toFixed(2);
+                
+                alert("আপনার ৳" + amount + " উত্তোলনের অনুরোধ সফল হয়েছে। এডমিন চেক করে " + method + " নাম্বারে পেমেন্ট করে দেবে।");
+                window.location.href = "dashboard.html";
+            }
+        }
+    </script>
+
+</body>
+</html>
