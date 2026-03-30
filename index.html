@@ -3,40 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loginiti YOUR777.COM</title>
+    <title>YOUR777 - Login</title>
     <style>
-        body { background-color: #013220; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-box { background: rgba(0, 0, 0, 0.4); padding: 25px; border-radius: 15px; text-align: center; width: 85%; max-width: 320px; border: 1px solid #00c389; }
-        .logo { color: #FFD700; font-size: 28px; margin-bottom: 15px; font-weight: bold; }
-        input { width: 100%; padding: 12px; margin: 10px 0; background: #004d33; border: 1px solid #00c389; border-radius: 8px; color: white; box-sizing: border-box; outline: none; }
-        .btn { width: 100%; padding: 12px; background: linear-gradient(to bottom, #FFD700, #FFA500); border: none; border-radius: 8px; font-weight: bold; margin-top: 10px; cursor: pointer; color: #000; }
+        body { background: #011d13; color: white; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .login-box { background: #00261a; border: 2px solid #00c389; padding: 30px; border-radius: 20px; width: 320px; text-align: center; box-shadow: 0 0 20px rgba(0,195,137,0.2); }
+        h1 { color: #FFD700; font-size: 35px; margin-bottom: 10px; font-weight: bold; }
+        p { color: #aaa; margin-bottom: 25px; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #444; background: #011d13; color: white; box-sizing: border-box; }
+        .btn { width: 100%; padding: 15px; background: #FFD700; border: none; border-radius: 10px; font-weight: bold; color: black; cursor: pointer; font-size: 16px; }
+        .reg-link { margin-top: 15px; font-size: 14px; }
+        a { color: #FFD700; text-decoration: none; }
     </style>
 </head>
 <body>
-
     <div class="login-box">
-        <div class="logo">CD33.COM</div>
+        <h1>YOUR777</h1>
         <p>Login to your account</p>
-        <input type="text" id="phone" placeholder="Phone number">
-        <input type="password" id="pass" placeholder="Password">
-        <button class="btn" onclick="checkLogin()">Login</button>
-        <p style="font-size: 13px; margin-top: 15px;">No account? <a href="register.html" style="color:#FFD700">Register Now</a></p>
+        <input type="text" placeholder="Phone number">
+        <input type="password" placeholder="Password">
+        <button class="btn" onclick="location.href='dashboard.html'">Login</button>
+        <div class="reg-link">
+            No account? <a href="register.html">Register Now</a>
+        </div>
     </div>
-
-    <script>
-        function checkLogin() {
-            const phone = document.getElementById('phone').value;
-            const pass = document.getElementById('pass').value;
-            const savedPhone = localStorage.getItem('userPhone');
-            const savedPass = localStorage.getItem('userPass');
-
-            if(phone === savedPhone && pass === savedPass) {
-                alert("লগইন সফল!");
-                window.location.href = "dashboard.html";
-            } else {
-                alert("ভুল ফোন নম্বর বা পাসওয়ার্ড!");
-            }
-        }
-    </script>
 </body>
 </html>
